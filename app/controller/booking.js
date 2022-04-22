@@ -108,3 +108,65 @@ exports.booking = async(req, res) => {
         }
     })
 }
+
+exports.bookings = (req, res) => {
+    Bookings.find({
+        userEmail: req.body.email,
+        eventType: "race"
+    }, async(err, resp) => {
+        if (err) {
+            res.send({
+                error: "Something wrong happened please try again later"
+            })
+        } else {
+            let length = resp.length;
+            for (let i = 0; i < length; i++) {
+                item = resp[i];
+                if (item.eventType == 'race') {
+                    let event = await UpcomingRaces.findOne({
+                        _id: item.eventId
+                    });
+                    data = {
+                        booking: item,
+                        race: event
+                    };
+                    resp[i] = data;
+                }
+            }
+            res.send({
+                data: resp
+            })
+        }
+    })
+}
+
+
+
+exports.orders = (req, res) => {
+
+    Orders.find({
+        userId: req.body.userId
+    }, async(err, resp) => {
+        if (err) {
+            res.send({
+                error: "Something wrong happened please try again later"
+            })
+        } else {
+            let length = resp.length;
+            for (let i = 0; i < length; i++) {
+                item = resp[i];
+                let event = await product.findOne({
+                    _id: item.productId
+                });
+                data = {
+                    booking: item,
+                    race: event
+                };
+                resp[i] = data;
+            }
+            res.send({
+                data: resp
+            })
+        }
+    })
+}

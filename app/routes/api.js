@@ -278,6 +278,16 @@ app.get("/driverPersonalDetail/:driver", driverDetail.driverPersonalDetail);
 app.post("/signup", controller.signup);
 app.post("/eventBooking", booking.booking);
 app.post("/ticketBooking", booking.raceBooking);
+app.post(
+  "/bookings",
+  passport.authenticate("jwt", { session: false }),
+  booking.bookings
+);
+app.post(
+  "/myorders",
+  passport.authenticate("jwt", { session: false }),
+  booking.orders
+);
 app.get("/news", newsController.news);
 app.get("/news/details", newsController.newsDetails);
 app.use("/driver", express.static(__dirname + "/../../assets/driver"));
