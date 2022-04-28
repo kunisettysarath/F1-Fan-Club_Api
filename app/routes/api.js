@@ -67,7 +67,7 @@ app.post("/login", (req, res) => {
           });
         else {
           var token = jwt.sign({ data: resp }, "MyS3cr3tK3Y", {
-            expiresIn: 60480,
+            expiresIn: 86400,
           });
           res.send({
             data: resp,
@@ -246,31 +246,6 @@ app.get("/products", (req, res) => {
   });
 });
 
-//console.log(auth.authenticate());
-// app.use((req, res, next) => {
-//     console.log("hii");
-//     //console.log(next);
-//     if (auth.authenticate()) {
-//         console.log("authenticated");
-//         next();
-//     }
-//     console.log("not authenticated")
-
-// });
-// app.use(() => {
-//     if (auth.authenticate()) {
-//         next;
-//     }
-// })
-app.get(
-  "/user",
-  passport.authenticate("jwt", { session: false }),
-  function (req, res) {
-    // console.log(req.headers);
-    console.log("xyz");
-    res.send({ data: "xyzsafd" });
-  }
-);
 app.get("/teams/:teamId", controller.teamDetail);
 app.get("/driver_detail/:driver", driverDetail.driverDetail);
 app.get("/driverStangingDetail/:driver", driverDetail.driverStangingDetail);
