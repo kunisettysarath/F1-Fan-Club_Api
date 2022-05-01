@@ -11,11 +11,8 @@ const TeamStandings = require("../models/teamStandings");
 const Teams = require("../models/teams");
 const Races = require("../models/races");
 const controller = require("../controller/controller");
-const driverDetail = require("../controller/driverdetail");
 const Drivers = require("../models/drivers");
 const Products = require("../models/products");
-const booking = require("../controller/booking");
-const newsController = require("../controller/newsController");
 var jwt = require("jsonwebtoken");
 const cors = require("cors");
 
@@ -247,24 +244,24 @@ app.get("/products", (req, res) => {
 });
 
 app.get("/teams/:teamId", controller.teamDetail);
-app.get("/driver_detail/:driver", driverDetail.driverDetail);
-app.get("/driverStangingDetail/:driver", driverDetail.driverStangingDetail);
-app.get("/driverPersonalDetail/:driver", driverDetail.driverPersonalDetail);
+app.get("/driver_detail/:driver", controller.driverDetail);
+app.get("/driverStangingDetail/:driver", controller.driverStangingDetail);
+app.get("/driverPersonalDetail/:driver", controller.driverPersonalDetail);
 app.post("/signup", controller.signup);
-app.post("/eventBooking", booking.booking);
-app.post("/ticketBooking", booking.raceBooking);
+app.post("/eventBooking", controller.booking);
+app.post("/ticketBooking", controller.raceBooking);
 app.post(
   "/bookings",
   passport.authenticate("jwt", { session: false }),
-  booking.bookings
+  controller.bookings
 );
 app.post(
   "/myorders",
   passport.authenticate("jwt", { session: false }),
-  booking.orders
+  controller.orders
 );
-app.get("/news", newsController.news);
-app.get("/news/details", newsController.newsDetails);
+app.get("/news", controller.news);
+app.get("/news/details", controller.newsDetails);
 app.use("/driver", express.static(__dirname + "/../../assets/driver"));
 app.use("/driver", express.static(__dirname + "/../../assets/driver"));
 app.get("/seasons", controller.racesResult);
