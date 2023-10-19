@@ -3,15 +3,12 @@ const path = require("path");
 const http = require("http");
 var passport = require("passport");
 var mongoose = require("mongoose");
-const connect = mongoose.connect("mongodb://localhost:27017/SampleDB");
-connect.then(
-  (db) => {
-    console.log("connected to server");
-  },
-  (err) => {
-    console.log(err);
-  }
-);
+const uri = "mongodb+srv://admin:admin@cluster0.2zu0uss.mongodb.net/?retryWrites=true&w=majority"
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, dbName: 'f1-fan-club-data' });
+const connection = mongoose.connection;
+connection.once('open', () => {
+    console.log("MongoDB database connection established successfully");
+});
 
 const bodyParser = require("body-parser");
 const api = require("./app/routes/api");
